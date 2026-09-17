@@ -62,6 +62,7 @@ function MyCoursesContent() {
                 <div className="flex items-center gap-3">
                   <Link href={"/instructor/courses/" + c.id + "/edit"} className="font-semibold text-gray-900 hover:text-blue-600">{c.title}</Link>
                   <Link href={"/instructor/courses/" + c.id + "/builder"} className="text-xs text-blue-600 hover:underline">Manage content</Link>
+                  <Link href={"/instructor/courses/" + c.id + "/roster"} className="text-xs text-blue-600 hover:underline">Roster</Link>
                 </div>
                 <div className="flex gap-2 mt-1">
                   <span className={"text-xs font-medium rounded-full px-2 py-0.5 " + statusStyle[c.status]}>{c.status}</span>
