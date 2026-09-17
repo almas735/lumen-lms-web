@@ -2,8 +2,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import ProtectedRoute from "../../../../components/ProtectedRoute";
-import { apiFetch } from "../../../../lib/api";
+import ProtectedRoute from "../../../../../components/ProtectedRoute";
+import { apiFetch } from "../../../../../lib/api";
 
 interface RosterRow {
   studentId: string;
