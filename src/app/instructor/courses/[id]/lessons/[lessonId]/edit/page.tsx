@@ -75,6 +75,7 @@ function LessonEditContent() {
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Edit lesson</h1>
         <Link href={"/instructor/courses/" + courseId + "/builder"} className="text-sm text-blue-600 hover:underline">Back to course builder</Link>
+        <Link href={"/instructor/courses/" + courseId + "/lessons/" + lessonId + "/quiz"} className="text-sm text-blue-600 hover:underline ml-4">Manage quiz</Link>
       </div>
       <form onSubmit={handleManualSave} className="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
         <div>

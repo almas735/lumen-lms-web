@@ -63,6 +63,7 @@ function LearnContent() {
     <main className="max-w-5xl mx-auto px-4 py-8 flex flex-col md:flex-row gap-6">
       <aside className="md:w-64 flex-shrink-0">
         <Link href="/my-learning" className="text-sm text-blue-600 hover:underline mb-3 inline-block">Back to My Learning</Link>
+        <Link href={"/learn/" + slug + "/" + lessonId + "/quiz"} className="text-sm text-green-600 hover:underline mb-3 inline-block ml-3">Take quiz</Link>
         <div className="space-y-4">
           {modules.map(function (m) {
             return (
