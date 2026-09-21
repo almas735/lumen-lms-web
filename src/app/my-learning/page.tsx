@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import ProtectedRoute from "../../components/ProtectedRoute";
 import { apiFetch } from "../../lib/api";
@@ -14,8 +15,10 @@ interface EnrollmentRow {
 }
 
 function MyLearningContent() {
+  const router = useRouter();
   const [rows, setRows] = useState<EnrollmentRow[]>([]);
   const [loading, setLoading] = useState(true);
+  const [opening, setOpening] = useState("");
 
   useEffect(() => {
     apiFetch("/api/student/enrollments")
@@ -23,6 +26,21 @@ function MyLearningContent() {
       .then(function (d) { setRows(d.data); })
       .finally(function () { setLoading(false); });
   }, []);
+
+  async function openCourse(slug: string) {
+    setOpening(slug);
+    const res = await apiFetch("/api/courses/" + slug + "/outline");
+    if (!res.ok) { setOpening(""); return; }
+    const data = await res.json();
+    const allLessons: { id: string; progress: string }[] = [];
+    data.modules.forEach(function (m: any) { m.lessons.forEach(function (l: any) { allLessons.push(l); }); });
+    const next = allLessons.find(function (l) { return l.progress !== "COMPLETED"; }) || allLessons[0];
+    if (next) {
+      router.push("/learn/" + slug + "/" + next.id);
+    } else {
+      setOpening("");
+    }
+  }
 
   const active = rows.filter(function (r) { return r.status === "ACTIVE"; });
   const completed = rows.filter(function (r) { return r.status === "COMPLETED"; });
@@ -42,13 +60,14 @@ function MyLearningContent() {
             {active.map(function (r) {
               const pct = r.totalLessons > 0 ? Math.round((r.completedLessons / r.totalLessons) * 100) : 0;
               return (
-                <Link key={r.enrollmentId} href={"/courses/" + r.course.slug} className="block bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition-shadow">
-                  <div className="font-semibold text-gray-900 mb-1">{r.course.title}</div>
+                <button key={r.enrollmentId} onClick={function () { openCourse(r.course.slug); }} disabled={opening === r.course.slug}
+                  className="w-full text-left block bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition-shadow disabled:opacity-60">
+                  <div className="font-semibold text-gray-900 mb-1">{opening === r.course.slug ? "Opening..." : r.course.title}</div>
                   <div className="text-sm text-gray-500 mb-2">{r.completedLessons} of {r.totalLessons} lessons</div>
                   <div className="w-full bg-gray-100 rounded-full h-2">
                     <div className="bg-blue-600 h-2 rounded-full" style={{ width: pct + "%" }}></div>
                   </div>
-                </Link>
+                </button>
               );
             })}
           </div>
@@ -61,10 +80,11 @@ function MyLearningContent() {
           <div className="space-y-3">
             {completed.map(function (r) {
               return (
-                <Link key={r.enrollmentId} href={"/courses/" + r.course.slug} className="block bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition-shadow">
-                  <div className="font-semibold text-gray-900">{r.course.title}</div>
+                <button key={r.enrollmentId} onClick={function () { openCourse(r.course.slug); }} disabled={opening === r.course.slug}
+                  className="w-full text-left block bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition-shadow disabled:opacity-60">
+                  <div className="font-semibold text-gray-900">{opening === r.course.slug ? "Opening..." : r.course.title}</div>
                   <div className="text-sm text-green-700">Completed {r.completedAt ? new Date(r.completedAt).toLocaleDateString() : ""}</div>
-                </Link>
+                </button>
               );
             })}
           </div>

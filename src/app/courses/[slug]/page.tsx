@@ -16,6 +16,7 @@ export default function CourseDetailPage() {
   const [course, setCourse] = useState<Course | null | undefined>(undefined);
   const [enrollState, setEnrollState] = useState("idle");
   const [enrollError, setEnrollError] = useState("");
+  const [continueLessonId, setContinueLessonId] = useState("");
 
   useEffect(() => {
     apiFetch("/api/courses/" + slug)
@@ -26,6 +27,20 @@ export default function CourseDetailPage() {
   useEffect(() => {
     if (course) { document.title = course.title + " | Lumen LMS"; }
   }, [course]);
+
+  useEffect(() => {
+    if (!user || user.role !== "STUDENT") return;
+    apiFetch("/api/courses/" + slug + "/outline")
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d) return;
+        const allLessons: { id: string; progress: string }[] = [];
+        d.modules.forEach(function (m: any) { m.lessons.forEach(function (l: any) { allLessons.push(l); }); });
+        const next = allLessons.find(function (l) { return l.progress !== "COMPLETED"; }) || allLessons[0];
+        if (next) setContinueLessonId(next.id);
+        setEnrollState("enrolled");
+      });
+  }, [slug, user]);
 
   if (course === undefined) return <p className="max-w-3xl mx-auto px-4 py-10 text-gray-500">Loading...</p>;
   if (course === null) { notFound(); }
@@ -53,6 +68,13 @@ export default function CourseDetailPage() {
       return;
     }
     setEnrollState("enrolled");
+    const outlineRes = await apiFetch("/api/courses/" + slug + "/outline");
+    if (outlineRes.ok) {
+      const outlineData = await outlineRes.json();
+      const allLessons: { id: string }[] = [];
+      outlineData.modules.forEach(function (m: any) { m.lessons.forEach(function (l: any) { allLessons.push(l); }); });
+      if (allLessons[0]) setContinueLessonId(allLessons[0].id);
+    }
   }
 
   return (
@@ -84,16 +106,18 @@ export default function CourseDetailPage() {
               {enrollState === "enrolling" ? "Enrolling..." : "Enroll"}
             </button>
           )}
-          {enrollState === "enrolled" && (
+          {(enrollState === "enrolled" || enrollState === "already") && (
             <div>
-              <p className="text-green-700 font-medium mb-2">You are enrolled.</p>
-              <Link href="/my-learning" className="text-blue-600 hover:underline text-sm">Go to My Learning</Link>
-            </div>
-          )}
-          {enrollState === "already" && (
-            <div>
-              <p className="text-gray-700 font-medium mb-2">You are already enrolled.</p>
-              <Link href="/my-learning" className="text-blue-600 hover:underline text-sm">Go to My Learning</Link>
+              <p className="text-green-700 font-medium mb-2">
+                {enrollState === "enrolled" ? "You are enrolled." : "You are already enrolled."}
+              </p>
+              {continueLessonId ? (
+                <Link href={"/learn/" + slug + "/" + continueLessonId} className="rounded-lg bg-blue-600 text-white px-5 py-2.5 font-medium hover:bg-blue-700 inline-block">
+                  Continue learning
+                </Link>
+              ) : (
+                <Link href="/my-learning" className="text-blue-600 hover:underline text-sm">Go to My Learning</Link>
+              )}
             </div>
           )}
           {enrollState === "error" && <p className="text-red-600 text-sm">{enrollError}</p>}
