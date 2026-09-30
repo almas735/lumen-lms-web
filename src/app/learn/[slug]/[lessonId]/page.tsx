@@ -20,6 +20,7 @@ function LearnContent() {
   const [lesson, setLesson] = useState<Lesson | null>(null);
   const [loading, setLoading] = useState(true);
   const [marking, setMarking] = useState(false);
+  const [justCompletedCourse, setJustCompletedCourse] = useState(false);
 
   const flatLessons: { moduleId: string; lesson: LessonOutline }[] = [];
   modules.forEach(function (m) {
@@ -49,9 +50,15 @@ function LearnContent() {
 
   async function toggleComplete(completed: boolean) {
     setMarking(true);
-    await apiFetch("/api/lessons/" + lessonId + "/progress", { method: "POST", body: JSON.stringify({ completed: completed }) });
+    setJustCompletedCourse(false);
+    const res = await apiFetch("/api/lessons/" + lessonId + "/progress", { method: "POST", body: JSON.stringify({ completed: completed }) });
+    const data = await res.json();
     setMarking(false);
     loadOutline();
+    if (completed && data.courseCompleted) {
+      setJustCompletedCourse(true);
+      return;
+    }
     if (completed && next) {
       router.push("/learn/" + slug + "/" + next.lesson.id);
     }
@@ -89,6 +96,12 @@ function LearnContent() {
       </aside>
 
       <div className="flex-1">
+        {justCompletedCourse && (
+          <div className="bg-green-50 border-2 border-green-200 rounded-xl p-5 mb-6">
+            <p className="font-bold text-green-800 text-lg mb-1">You've completed this course!</p>
+            <Link href="/my-learning" className="text-sm text-blue-600 hover:underline">Back to My Learning</Link>
+          </div>
+        )}
         <h1 className="text-2xl font-bold text-gray-900 mb-4">{lesson.title}</h1>
         {lesson.videoUrl && (
           <div className="mb-4 aspect-video">
