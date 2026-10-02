@@ -72,13 +72,13 @@ function QuizTakeContent() {
           <h1 className="text-2xl font-bold mb-1">{result.attempt.passed ? "You passed!" : "Not quite yet"}</h1>
           <p className="text-gray-700">Score: {result.attempt.scorePercent}% (need {result.attempt.passingScorePercent}% to pass)</p>
         </div>
+
         {result.courseCompleted && (
           <div className="bg-green-50 border-2 border-green-200 rounded-xl p-5 mb-6">
             <p className="font-bold text-green-800 text-lg mb-1">You have completed the whole course!</p>
             <Link href="/my-learning" className="text-sm text-blue-600 hover:underline">Back to My Learning</Link>
           </div>
         )}
-        </div>
 
         <div className="space-y-4 mb-6">
           {result.questions.map(function (q: any) {
