@@ -24,8 +24,15 @@ function MyCoursesContent() {
   async function doAction(id: string, action: string, label: string) {
     const ok = confirm("Are you sure you want to " + label + " this course?");
     if (!ok) return;
+
     const res = await apiFetch("/api/courses/" + id + "/" + action, { method: "POST" });
-    if (!res.ok) { const d = await res.json(); alert(d.error ? (d.error.details ? d.error.details[0].message : d.error.message) : "Could not update course"); }
+
+    if (!res.ok) {
+      const d = await res.json();
+      alert(d.error ? (d.error.details ? d.error.details[0].message : d.error.message) : "Could not update course");
+      return;
+    }
+
     load();
   }
 
