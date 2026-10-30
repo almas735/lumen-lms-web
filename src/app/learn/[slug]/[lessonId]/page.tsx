@@ -53,6 +53,7 @@ function LearnContent() {
     setJustCompletedCourse(false);
     const res = await apiFetch("/api/lessons/" + lessonId + "/progress", { method: "POST", body: JSON.stringify({ completed: completed }) });
     const data = await res.json();
+    if (!res.ok) { setMarking(false); alert(data.error ? data.error.message : "Could not update progress"); return; }
     setMarking(false);
     loadOutline();
     if (completed && data.courseCompleted) {
