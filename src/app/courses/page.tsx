@@ -22,7 +22,7 @@ export default function CatalogPage() {
       if (search) qs.set("search", search);
       if (level) qs.set("level", level);
       qs.set("page", String(page));
-      fetch((process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000") + "/api/courses?" + qs.toString())
+      fetch((process.env.NEXT_PUBLIC_API_URL ?? "") + "/api/courses?" + qs.toString())
         .then(function (r) { return r.json(); })
         .then(function (d) { setCourses(d.data); setMeta(d.meta); })
         .finally(function () { setLoading(false); });

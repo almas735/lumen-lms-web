@@ -1,7 +1,7 @@
 import Header from "../components/Header";
 
 export default async function Home() {
-  const response = await fetch((process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000") + "/api/health", { cache: "no-store" });
+  const response = await fetch((process.env.API_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000") + "/api/health", { cache: "no-store" });
   const data = await response.json();
   return (
     <>
