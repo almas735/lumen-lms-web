@@ -1,4 +1,5 @@
 # Lumen LMS Web
+[![CI](https://github.com/almas735/lumen-lms-web/actions/workflows/ci.yml/badge.svg)](https://github.com/almas735/lumen-lms-web/actions/workflows/ci.yml)
 
 Next.js 15 + React 19 + TypeScript + Tailwind CSS.
 
