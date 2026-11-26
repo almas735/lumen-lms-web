@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import ProtectedRoute from "../../components/ProtectedRoute";
-import { apiFetch } from "../../lib/api";
+import ErrorNotice from "../../components/ErrorNotice";
+import { apiFetch, CONNECTION_MESSAGE } from "../../lib/api";
 
 interface EnrollmentRow {
   enrollmentId: string;
@@ -14,31 +15,52 @@ interface EnrollmentRow {
   completedAt: string | null;
 }
 
+interface OutlineLesson { id: string; progress: string }
+interface OutlineModule { lessons: OutlineLesson[] }
+
 function MyLearningContent() {
   const router = useRouter();
   const [rows, setRows] = useState<EnrollmentRow[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [opening, setOpening] = useState("");
+  const [openError, setOpenError] = useState("");
 
-  useEffect(() => {
+  function load() {
+    setLoading(true);
+    setError("");
     apiFetch("/api/student/enrollments")
-      .then(function (r) { return r.json(); })
-      .then(function (d) { setRows(d.data); })
+      .then(function (r) {
+        if (!r.ok) {
+          setError(r.status === 503 ? CONNECTION_MESSAGE : "We could not load your courses. Please try again.");
+          return null;
+        }
+        return r.json();
+      })
+      .then(function (d) { if (d) setRows(d.data); })
+      .catch(function () { setError("We could not load your courses. Please try again."); })
       .finally(function () { setLoading(false); });
-  }, []);
+  }
+  useEffect(load, []);
 
   async function openCourse(slug: string) {
     setOpening(slug);
+    setOpenError("");
     const res = await apiFetch("/api/courses/" + slug + "/outline");
-    if (!res.ok) { setOpening(""); return; }
+    if (!res.ok) {
+      setOpening("");
+      setOpenError(res.status === 503 ? CONNECTION_MESSAGE : "We could not open that course. Please try again.");
+      return;
+    }
     const data = await res.json();
-    const allLessons: { id: string; progress: string }[] = [];
-    data.modules.forEach(function (m: any) { m.lessons.forEach(function (l: any) { allLessons.push(l); }); });
+    const allLessons: OutlineLesson[] = [];
+    (data.modules as OutlineModule[]).forEach(function (m) { m.lessons.forEach(function (l) { allLessons.push(l); }); });
     const next = allLessons.find(function (l) { return l.progress !== "COMPLETED"; }) || allLessons[0];
     if (next) {
       router.push("/learn/" + slug + "/" + next.id);
     } else {
       setOpening("");
+      setOpenError("This course does not have any lessons yet.");
     }
   }
 
@@ -49,7 +71,9 @@ function MyLearningContent() {
     <main className="max-w-3xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-bold text-gray-900 mb-6">My Learning</h1>
       {loading && <p className="text-gray-500">Loading...</p>}
-      {!loading && rows.length === 0 && (
+      {!loading && error && <ErrorNotice message={error} onRetry={load} />}
+      {openError && <div className="mb-4"><ErrorNotice message={openError} /></div>}
+      {!loading && !error && rows.length === 0 && (
         <p className="text-gray-500">You have not enrolled in any courses yet. <Link href="/courses" className="text-blue-600 hover:underline">Browse the catalog</Link></p>
       )}
 
