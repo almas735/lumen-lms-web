@@ -75,7 +75,7 @@ function MyCoursesContent() {
                 <div className="flex gap-2 mt-1">
                   <span className={"text-xs font-medium rounded-full px-2 py-0.5 " + statusStyle[c.status]}>{c.status}</span>
                   <span className="text-xs text-gray-500">{c.level}</span>
-                  <span className="text-xs text-gray-400">{c.moduleCount} module(s) - {c.lessonCount} lesson(s)</span>
+                  <span className="text-xs text-gray-600">{c.moduleCount} module(s) - {c.lessonCount} lesson(s)</span>
                 </div>
               </div>
               <div className="flex gap-2">

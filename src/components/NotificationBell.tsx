@@ -111,7 +111,7 @@ export default function NotificationBell() {
           </div>
           <div className="max-h-96 overflow-y-auto">
             {loading && <p className="px-4 py-6 text-sm text-gray-500">Loading...</p>}
-            {!loading && error && <p className="px-4 py-6 text-sm text-red-600">{error}</p>}
+            {!loading && error && <p role="alert" className="px-4 py-6 text-sm text-red-600">{error}</p>}
             {!loading && !error && items.length === 0 && <p className="px-4 py-6 text-sm text-gray-500">You have no notifications yet.</p>}
             {!loading && !error && items.map(function (n) {
               return (

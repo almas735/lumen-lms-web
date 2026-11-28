@@ -135,7 +135,7 @@ function QuizTakeContent() {
             </div>
           );
         })}
-        {error && <p className="text-red-600 text-sm">{error}</p>}
+        {error && <p role="alert" className="text-red-600 text-sm">{error}</p>}
         <button type="submit" disabled={submitting} className="rounded-lg bg-blue-600 text-white px-5 py-2.5 font-medium hover:bg-blue-700 disabled:opacity-50">
           {submitting ? "Submitting..." : "Submit quiz"}
         </button>

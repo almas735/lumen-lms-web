@@ -47,23 +47,23 @@ export default function RegisterPage() {
             <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">Full name</label>
             <input id="fullName" value={fullName} onChange={(e) => setFullName(e.target.value)} required
               className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            {fieldErrors.fullName && <p className="text-red-600 text-sm mt-1">{fieldErrors.fullName}</p>}
+            {fieldErrors.fullName && <p role="alert" className="text-red-600 text-sm mt-1">{fieldErrors.fullName}</p>}
           </div>
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
             <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required
               className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            {fieldErrors.email && <p className="text-red-600 text-sm mt-1">{fieldErrors.email}</p>}
+            {fieldErrors.email && <p role="alert" className="text-red-600 text-sm mt-1">{fieldErrors.email}</p>}
           </div>
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Password</label>
             <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={8}
               className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            {fieldErrors.password && <p className="text-red-600 text-sm mt-1">{fieldErrors.password}</p>}
+            {fieldErrors.password && <p role="alert" className="text-red-600 text-sm mt-1">{fieldErrors.password}</p>}
             <ul className="mt-1.5 space-y-0.5 text-xs">
-              <li className={hasMinLength ? "text-green-600" : "text-gray-400"}>{hasMinLength ? "OK" : "-"} At least 8 characters</li>
-              <li className={hasLetter ? "text-green-600" : "text-gray-400"}>{hasLetter ? "OK" : "-"} Contains a letter</li>
-              <li className={hasNumber ? "text-green-600" : "text-gray-400"}>{hasNumber ? "OK" : "-"} Contains a number</li>
+              <li className={hasMinLength ? "text-green-700" : "text-gray-600"}>{hasMinLength ? "OK" : "-"} At least 8 characters</li>
+              <li className={hasLetter ? "text-green-700" : "text-gray-600"}>{hasLetter ? "OK" : "-"} Contains a letter</li>
+              <li className={hasNumber ? "text-green-700" : "text-gray-600"}>{hasNumber ? "OK" : "-"} Contains a number</li>
             </ul>
           </div>
           <div>
@@ -74,7 +74,7 @@ export default function RegisterPage() {
               <option value="INSTRUCTOR">Instructor</option>
             </select>
           </div>
-          {formError && <p className="text-red-600 text-sm">{formError}</p>}
+          {formError && <p role="alert" className="text-red-600 text-sm">{formError}</p>}
           <button type="submit" disabled={submitting}
             className="w-full rounded-lg bg-blue-600 text-white py-2.5 font-medium hover:bg-blue-700 disabled:opacity-50 flex items-center justify-center gap-2">
             {submitting && <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>}

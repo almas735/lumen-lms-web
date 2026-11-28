@@ -77,39 +77,39 @@ function EditCourseContent() {
         <h1 className="text-2xl font-bold text-gray-900 mb-6">Edit course</h1>
         <form onSubmit={handleSave} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
-            <input value={title} onChange={(e) => setTitle(e.target.value)} required minLength={3} maxLength={120}
+            <label htmlFor="course-title" className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+            <input id="course-title" value={title} onChange={(e) => setTitle(e.target.value)} required minLength={3} maxLength={120}
               className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            {fieldErrors.title && <p className="text-red-600 text-sm mt-1">{fieldErrors.title}</p>}
+            {fieldErrors.title && <p role="alert" className="text-red-600 text-sm mt-1">{fieldErrors.title}</p>}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Summary</label>
-            <input value={summary} onChange={(e) => setSummary(e.target.value)} required maxLength={300}
+            <label htmlFor="course-summary" className="block text-sm font-medium text-gray-700 mb-1">Summary</label>
+            <input id="course-summary" value={summary} onChange={(e) => setSummary(e.target.value)} required maxLength={300}
               className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            {fieldErrors.summary && <p className="text-red-600 text-sm mt-1">{fieldErrors.summary}</p>}
+            {fieldErrors.summary && <p role="alert" className="text-red-600 text-sm mt-1">{fieldErrors.summary}</p>}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Description <span className="text-gray-400 font-normal">(Markdown supported)</span></label>
-            <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={4}
+            <label htmlFor="course-description" className="block text-sm font-medium text-gray-700 mb-1">Description <span className="text-gray-600 font-normal">(Markdown supported)</span></label>
+            <textarea id="course-description" value={description} onChange={(e) => setDescription(e.target.value)} rows={4}
               className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            {fieldErrors.description && <p className="text-red-600 text-sm mt-1">{fieldErrors.description}</p>}
+            {fieldErrors.description && <p role="alert" className="text-red-600 text-sm mt-1">{fieldErrors.description}</p>}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Thumbnail URL</label>
-            <input value={thumbnailUrl} onChange={(e) => setThumbnailUrl(e.target.value)} placeholder="https://..."
+            <label htmlFor="course-thumbnail" className="block text-sm font-medium text-gray-700 mb-1">Thumbnail URL</label>
+            <input id="course-thumbnail" value={thumbnailUrl} onChange={(e) => setThumbnailUrl(e.target.value)} placeholder="https://..."
               className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            {fieldErrors.thumbnailUrl && <p className="text-red-600 text-sm mt-1">{fieldErrors.thumbnailUrl}</p>}
+            {fieldErrors.thumbnailUrl && <p role="alert" className="text-red-600 text-sm mt-1">{fieldErrors.thumbnailUrl}</p>}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Level</label>
-            <select value={level} onChange={(e) => setLevel(e.target.value)}
+            <label htmlFor="course-level" className="block text-sm font-medium text-gray-700 mb-1">Level</label>
+            <select id="course-level" value={level} onChange={(e) => setLevel(e.target.value)}
               className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
               <option value="BEGINNER">Beginner</option>
               <option value="INTERMEDIATE">Intermediate</option>
               <option value="ADVANCED">Advanced</option>
             </select>
           </div>
-          {formError && <p className="text-red-600 text-sm">{formError}</p>}
+          {formError && <p role="alert" className="text-red-600 text-sm">{formError}</p>}
           <button type="submit" disabled={saving}
             className="w-full rounded-lg bg-blue-600 text-white py-2.5 font-medium hover:bg-blue-700 disabled:opacity-50">
             {saving ? "Saving..." : "Save changes"}

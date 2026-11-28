@@ -4,3 +4,9 @@
 html, body {
   height: 100%;
 }
+
+/* A clear keyboard focus ring everywhere, not only where a component remembered to add one. */
+:focus-visible {
+  outline: 2px solid #1d4ed8;
+  outline-offset: 2px;
+}

@@ -107,13 +107,13 @@ function QuizBuilderContent() {
       <form onSubmit={handleSave} className="space-y-6">
         <div className="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Quiz title</label>
-            <input value={title} onChange={function (e) { setTitle(e.target.value); }} required
+            <label htmlFor="quiz-title" className="block text-sm font-medium text-gray-700 mb-1">Quiz title</label>
+            <input id="quiz-title" value={title} onChange={function (e) { setTitle(e.target.value); }} required
               className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Passing score (%)</label>
-            <input type="number" min={0} max={100} value={passingScorePercent}
+            <label htmlFor="quiz-passing" className="block text-sm font-medium text-gray-700 mb-1">Passing score (%)</label>
+            <input id="quiz-passing" type="number" min={0} max={100} value={passingScorePercent}
               onChange={function (e) { setPassingScorePercent(parseInt(e.target.value, 10) || 0); }}
               className="w-32 rounded-lg border border-gray-300 px-3 py-2 text-sm" />
           </div>
@@ -123,23 +123,23 @@ function QuizBuilderContent() {
           return (
             <div key={qi} className="bg-white rounded-xl border border-gray-200 p-6">
               <div className="flex items-center justify-between mb-3">
-                <label className="block text-sm font-medium text-gray-700">Question {qi + 1}</label>
+                <label htmlFor={"question-" + qi} className="block text-sm font-medium text-gray-700">Question {qi + 1}</label>
                 {questions.length > 1 && (
                   <button type="button" onClick={function () { removeQuestion(qi); }} className="text-xs text-red-600 hover:underline">Remove question</button>
                 )}
               </div>
-              <input value={q.text} onChange={function (e) { updateQuestionText(qi, e.target.value); }} required
+              <input id={"question-" + qi} value={q.text} onChange={function (e) { updateQuestionText(qi, e.target.value); }} required
                 placeholder="Question text" className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm mb-4" />
 
               <div className="space-y-3">
                 {q.options.map(function (o, oi) {
                   return (
                     <div key={oi} className="flex items-start gap-2 bg-gray-50 rounded-lg p-3">
-                      <input type="radio" checked={o.isCorrect} onChange={function () { setCorrect(qi, oi); }} className="mt-2" title="Correct answer" />
+                      <input type="radio" aria-label={"Option " + (oi + 1) + " of question " + (qi + 1) + " is correct"} checked={o.isCorrect} onChange={function () { setCorrect(qi, oi); }} className="mt-2" title="Correct answer" />
                       <div className="flex-1 space-y-2">
-                        <input value={o.text} onChange={function (e) { updateOption(qi, oi, "text", e.target.value); }} required
+                        <input aria-label={"Option " + (oi + 1) + " of question " + (qi + 1)} value={o.text} onChange={function (e) { updateOption(qi, oi, "text", e.target.value); }} required
                           placeholder="Option text" className="w-full rounded-lg border border-gray-300 px-2 py-1 text-sm" />
-                        <input value={o.explanation} onChange={function (e) { updateOption(qi, oi, "explanation", e.target.value); }}
+                        <input aria-label={"Explanation for option " + (oi + 1) + " of question " + (qi + 1)} value={o.explanation} onChange={function (e) { updateOption(qi, oi, "explanation", e.target.value); }}
                           placeholder="Explanation (optional, shown after submit)" className="w-full rounded-lg border border-gray-300 px-2 py-1 text-xs" />
                       </div>
                       {q.options.length > 2 && (
@@ -158,7 +158,7 @@ function QuizBuilderContent() {
           + Add question
         </button>
 
-        {error && <p className="text-red-600 text-sm">{error}</p>}
+        {error && <p role="alert" className="text-red-600 text-sm">{error}</p>}
         <button type="submit" disabled={saving} className="rounded-lg bg-blue-600 text-white px-5 py-2.5 font-medium hover:bg-blue-700 disabled:opacity-50">
           {saving ? "Saving..." : "Save quiz"}
         </button>

@@ -79,18 +79,18 @@ function LessonEditContent() {
       </div>
       <form onSubmit={handleManualSave} className="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
-          <input value={title} onChange={function (e) { setTitle(e.target.value); markDirty(); }} required
+          <label htmlFor="lesson-title" className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+          <input id="lesson-title" value={title} onChange={function (e) { setTitle(e.target.value); markDirty(); }} required
             className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm" />
         </div>
         <div>
           <div className="flex items-center justify-between mb-1">
-            <label className="block text-sm font-medium text-gray-700">Content (Markdown)</label>
+            <label htmlFor="lesson-content" className="block text-sm font-medium text-gray-700">Content (Markdown)</label>
             <button type="button" onClick={function () { setShowPreview(!showPreview); }} className="text-xs text-blue-600 hover:underline">
               {showPreview ? "Hide preview" : "Show preview"}
             </button>
           </div>
-          <textarea value={contentMd} onChange={function (e) { setContentMd(e.target.value); markDirty(); }} rows={10}
+          <textarea id="lesson-content" value={contentMd} onChange={function (e) { setContentMd(e.target.value); markDirty(); }} rows={10}
             className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm font-mono" />
           {showPreview && (
             <div className="mt-3 border border-gray-200 rounded-lg p-4 prose prose-sm max-w-none">
@@ -99,17 +99,17 @@ function LessonEditContent() {
           )}
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Video URL (optional)</label>
-          <input value={videoUrl} onChange={function (e) { setVideoUrl(e.target.value); markDirty(); }} placeholder="https://..."
+          <label htmlFor="lesson-video" className="block text-sm font-medium text-gray-700 mb-1">Video URL (optional)</label>
+          <input id="lesson-video" value={videoUrl} onChange={function (e) { setVideoUrl(e.target.value); markDirty(); }} placeholder="https://..."
             className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Estimated minutes</label>
-          <input type="number" min={0} value={durationMinutes}
+          <label htmlFor="lesson-minutes" className="block text-sm font-medium text-gray-700 mb-1">Estimated minutes</label>
+          <input id="lesson-minutes" type="number" min={0} value={durationMinutes}
             onChange={function (e) { setDurationMinutes(parseInt(e.target.value, 10) || 0); markDirty(); }}
             className="w-32 rounded-lg border border-gray-300 px-3 py-2 text-sm" />
         </div>
-        {error && <p className="text-red-600 text-sm">{error}</p>}
+        {error && <p role="alert" className="text-red-600 text-sm">{error}</p>}
         <div className="flex items-center gap-3">
           <button type="submit" disabled={saving}
             className="rounded-lg bg-blue-600 text-white px-4 py-2 text-sm font-medium hover:bg-blue-700 disabled:opacity-50">

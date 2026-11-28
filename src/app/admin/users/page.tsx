@@ -43,7 +43,7 @@ function AdminUsersContent() {
       <h1 className="text-3xl font-bold text-gray-900 mb-6">Manage Users</h1>
       <input placeholder="Search by name or email" value={search} onChange={(e) => setSearch(e.target.value)}
         className="w-full sm:w-80 rounded-lg border border-gray-300 px-3 py-2 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-      {error && <p className="text-red-600 text-sm mb-3">{error}</p>}
+      {error && <p role="alert" className="text-red-600 text-sm mb-3">{error}</p>}
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
         <table className="w-full text-sm">
           <thead className="bg-gray-50 text-gray-600">

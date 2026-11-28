@@ -120,7 +120,7 @@ export default function CourseDetailPage() {
               )}
             </div>
           )}
-          {enrollState === "error" && <p className="text-red-600 text-sm">{enrollError}</p>}
+          {enrollState === "error" && <p role="alert" className="text-red-600 text-sm">{enrollError}</p>}
         </div>
       )}
     </main>

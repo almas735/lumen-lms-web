@@ -46,9 +46,9 @@ export default function CatalogPage() {
     <main className="max-w-6xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-bold text-gray-900 mb-6">Course Catalog</h1>
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
-        <input placeholder="Search courses" value={search} onChange={(e) => setSearch(e.target.value)}
+        <input aria-label="Search courses" placeholder="Search courses" value={search} onChange={(e) => setSearch(e.target.value)}
           className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-        <select value={level} onChange={(e) => setLevel(e.target.value)}
+        <select aria-label="Filter by level" value={level} onChange={(e) => setLevel(e.target.value)}
           className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
           <option value="">All levels</option>
           <option value="BEGINNER">Beginner</option>
@@ -71,11 +71,11 @@ export default function CatalogPage() {
               <img
                 src={c.thumbnailUrl || "https://placehold.co/400x240?text=Lumen"}
                 alt={c.title}
-                className="w-full h-32 object-cover"
+                loading="lazy" className="w-full h-32 object-cover"
                 onError={(e) => { (e.target as HTMLImageElement).src = "https://placehold.co/400x240?text=Lumen"; }}
               />
               <div className="p-4">
-                <h3 className="font-semibold text-gray-900 mb-1">{c.title}</h3>
+                <h2 className="font-semibold text-gray-900 mb-1">{c.title}</h2>
                 <p className="text-sm text-gray-600 line-clamp-2 mb-2">{c.summary}</p>
                 <span className="inline-block text-xs font-medium bg-blue-50 text-blue-700 rounded-full px-2 py-0.5">{c.level}</span>
                 <span className="text-xs text-gray-500 ml-2">{c.instructor.fullName}</span>
