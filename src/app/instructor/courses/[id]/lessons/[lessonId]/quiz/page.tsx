@@ -107,13 +107,13 @@ function QuizBuilderContent() {
       <form onSubmit={handleSave} className="space-y-6">
         <div className="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Quiz title</label>
-            <input aria-label="Quiz title" value={title} onChange={function (e) { setTitle(e.target.value); }} required
+            <label htmlFor="quiz-title" className="block text-sm font-medium text-gray-700 mb-1">Quiz title</label>
+            <input id="quiz-title" value={title} onChange={function (e) { setTitle(e.target.value); }} required
               className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Passing score (%)</label>
-            <input aria-label="Passing score in percent" type="number" min={0} max={100} value={passingScorePercent}
+            <label htmlFor="quiz-passing" className="block text-sm font-medium text-gray-700 mb-1">Passing score (%)</label>
+            <input id="quiz-passing" type="number" min={0} max={100} value={passingScorePercent}
               onChange={function (e) { setPassingScorePercent(parseInt(e.target.value, 10) || 0); }}
               className="w-32 rounded-lg border border-gray-300 px-3 py-2 text-sm" />
           </div>
@@ -123,12 +123,12 @@ function QuizBuilderContent() {
           return (
             <div key={qi} className="bg-white rounded-xl border border-gray-200 p-6">
               <div className="flex items-center justify-between mb-3">
-                <label className="block text-sm font-medium text-gray-700">Question {qi + 1}</label>
+                <label htmlFor={"question-" + qi} className="block text-sm font-medium text-gray-700">Question {qi + 1}</label>
                 {questions.length > 1 && (
                   <button type="button" onClick={function () { removeQuestion(qi); }} className="text-xs text-red-600 hover:underline">Remove question</button>
                 )}
               </div>
-              <input aria-label={"Question " + (qi + 1)} value={q.text} onChange={function (e) { updateQuestionText(qi, e.target.value); }} required
+              <input id={"question-" + qi} value={q.text} onChange={function (e) { updateQuestionText(qi, e.target.value); }} required
                 placeholder="Question text" className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm mb-4" />
 
               <div className="space-y-3">

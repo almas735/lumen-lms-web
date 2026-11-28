@@ -71,7 +71,7 @@ export default function CatalogPage() {
               <img
                 src={c.thumbnailUrl || "https://placehold.co/400x240?text=Lumen"}
                 alt={c.title}
-                className="w-full h-32 object-cover"
+                loading="lazy" className="w-full h-32 object-cover"
                 onError={(e) => { (e.target as HTMLImageElement).src = "https://placehold.co/400x240?text=Lumen"; }}
               />
               <div className="p-4">
