@@ -17,8 +17,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <AuthProvider>
+          <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:text-blue-700">Skip to main content</a>
           <Header />
-          {children}
+          <div id="main" tabIndex={-1} className="focus:outline-none">{children}</div>
         </AuthProvider>
       </body>
     </html>

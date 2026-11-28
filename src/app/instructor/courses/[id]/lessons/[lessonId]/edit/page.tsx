@@ -109,7 +109,7 @@ function LessonEditContent() {
             onChange={function (e) { setDurationMinutes(parseInt(e.target.value, 10) || 0); markDirty(); }}
             className="w-32 rounded-lg border border-gray-300 px-3 py-2 text-sm" />
         </div>
-        {error && <p className="text-red-600 text-sm">{error}</p>}
+        {error && <p role="alert" className="text-red-600 text-sm">{error}</p>}
         <div className="flex items-center gap-3">
           <button type="submit" disabled={saving}
             className="rounded-lg bg-blue-600 text-white px-4 py-2 text-sm font-medium hover:bg-blue-700 disabled:opacity-50">

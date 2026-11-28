@@ -117,7 +117,7 @@ function BuilderContent() {
         <Link href="/instructor/courses" className="text-sm text-blue-600 hover:underline">Back to My Courses</Link>
       </div>
       <p className="text-sm text-gray-500 mb-6">{modules.length} module(s) - {totalLessons} lesson(s)</p>
-      {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
+      {error && <p role="alert" className="text-red-600 text-sm mb-4">{error}</p>}
 
       {modules.length === 0 && <p className="text-gray-500 mb-4">No modules yet. Add your first one below.</p>}
 
@@ -143,7 +143,7 @@ function BuilderContent() {
                 </div>
               </div>
 
-              {mod.lessons.length === 0 && <p className="text-sm text-gray-400 mb-2">No lessons yet.</p>}
+              {mod.lessons.length === 0 && <p className="text-sm text-gray-600 mb-2">No lessons yet.</p>}
 
               <ul className="space-y-1 mb-3">
                 {mod.lessons.map(function (lesson, lIndex) {
